@@ -1,6 +1,10 @@
-const home = () => {
+import AccountButton from "../../components/AccountButton/AccountButton";
+const Home = () => {
+  
   return (
-    <div>home</div>
-  )
-}
-export default home
+    <div>
+      <AccountButton/>
+    </div>
+  );
+};
+export default Home;
