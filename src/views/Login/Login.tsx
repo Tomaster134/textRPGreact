@@ -33,6 +33,12 @@ const defaultTheme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
+
+  const [input, setInput] = React.useState({
+    username: "",
+    password: "",
+  });
+
   const { setUser } = React.useContext(UserContext);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -84,7 +90,7 @@ export default function Login() {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square sx={{backgroundColor: "whitesmoke"}}>
           <AccountButton />
           <Box
             sx={{
@@ -112,6 +118,10 @@ export default function Login() {
                 label="Username"
                 name="username"
                 autoComplete="username"
+                value={input.username}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setInput({ ...input, username: event.target.value });
+                }}
                 autoFocus
               />
               <TextField
@@ -122,6 +132,10 @@ export default function Login() {
                 label="Password"
                 type="password"
                 id="password"
+                value={input.password}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setInput({ ...input, password: event.target.value });
+                }}
                 autoComplete="current-password"
               />
               <Button
@@ -129,6 +143,7 @@ export default function Login() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={input.username && input.password ? false : true}
               >
                 Sign In
               </Button>

@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import AccountButton from "../../components/AccountButton/AccountButton";
-import './SignUp.css'
+import "./SignUp.css";
 
 function Copyright(props: any) {
   return (
@@ -32,25 +32,33 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const navigate = useNavigate();
 
+  const [input, setInput] = React.useState({
+    username: "",
+    email: "",
+    password: "",
+    confirm: "",
+  });
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const userInfo = new FormData(event.currentTarget);
     const user = {
       username: userInfo.get("username"),
+      email: userInfo.get("email"),
       password: userInfo.get("password"),
     };
-    const response = await fetch("http://localhost:5000/api/login", {
+    const response = await fetch("http://localhost:5000/api/signup", {
       method: "POST",
-      credentials: 'include',
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
     });
     const data = await response.json();
     console.log(data);
-    if (data.status === "logged in") {
+    if (data.status === "ok") {
       navigate("/login");
     } else {
-      alert("Username or Password incorrect");
+      alert("Username or Email already in use.");
     }
   };
 
@@ -58,7 +66,8 @@ export default function SignUp() {
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
-        <Grid className="login-img"
+        <Grid
+          className="login-img"
           item
           xs={false}
           sm={4}
@@ -74,7 +83,16 @@ export default function SignUp() {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+          sx={{ backgroundColor: "whitesmoke" }}
+        >
           <AccountButton />
           <Box
             sx={{
@@ -102,18 +120,26 @@ export default function SignUp() {
                 label="Username"
                 name="username"
                 autoComplete="username"
+                value={input.username}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setInput({ ...input, username: event.target.value });
+                }}
                 autoFocus
               />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="email"
-                  label="Email"
-                  type="email"
-                  id="email"
-                  autoComplete="email"
-                />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="email"
+                label="Email"
+                type="email"
+                id="email"
+                value={input.email}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setInput({ ...input, email: event.target.value });
+                }}
+                autoComplete="email"
+              />
               <TextField
                 margin="normal"
                 required
@@ -122,6 +148,10 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
+                value={input.password}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setInput({ ...input, password: event.target.value });
+                }}
               />
               <TextField
                 margin="normal"
@@ -131,20 +161,27 @@ export default function SignUp() {
                 label="Confirm Password"
                 type="password"
                 id="confirm-password"
+                value={input.confirm}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setInput({ ...input, confirm: event.target.value });
+                }}
               />
+              {input.password === input.confirm ? null : (
+                <h6>Passwords do not match</h6>
+              )}
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={(input.password === input.confirm && input.email && input.username && input.password) ? false : true}
               >
                 Sign Up!
               </Button>
               <Grid
                 container
                 sx={{ display: "flex", justifyContent: "center" }}
-              >
-              </Grid>
+              ></Grid>
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
