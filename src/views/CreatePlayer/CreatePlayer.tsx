@@ -1,6 +1,8 @@
+import AccountButton from "../../components/AccountButton/AccountButton"
+
 const CreatePlayer = () => {
   return (
-    <div>CreatePlayer</div>
+    <AccountButton />
   )
 }
 export default CreatePlayer

@@ -6,6 +6,8 @@ import CreatePlayer from "./views/CreatePlayer/CreatePlayer";
 import Login from "./views/Login/Login";
 import { UserContext } from "./contexts/UserContext";
 import { useContext } from "react";
+import SignUp from "./views/SignUp/SignUp";
+import About from "./views/About/About";
 
 const App = () => {
   const { user, setUser } = useContext(UserContext);
@@ -36,6 +38,8 @@ const App = () => {
       <Route path="/create-player" element={<CreatePlayer />} />
       <Route path="/room" element={<Room />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/about" element={<About />} />
     </Routes>
   );
 };

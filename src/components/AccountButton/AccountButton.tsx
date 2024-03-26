@@ -6,13 +6,13 @@ import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function AccountButton() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const { user } = React.useContext(UserContext);
+  const { user, setUser } = React.useContext(UserContext);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
     console.log({ user });
@@ -20,6 +20,22 @@ export default function AccountButton() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    handleClose()
+    setUser({
+      id: -1,
+      username: '',
+      email: '',
+      active_account: -1
+    });
+    localStorage.clear();
+    navigate("/")
+  }
+
+
   return (
     <React.Fragment>
       <Box
@@ -28,7 +44,7 @@ export default function AccountButton() {
           alignItems: "center",
           textAlign: "center",
           position: "fixed",
-          top: "15px",
+          top: "2px",
           right: "20px",
         }}
       >
@@ -74,7 +90,7 @@ export default function AccountButton() {
               right: 14,
               width: 10,
               height: 10,
-              bgcolor: "background.paper",
+              bgcolor: "whitesmoke",
               transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
             },
@@ -88,7 +104,14 @@ export default function AccountButton() {
               style={{ textDecoration: "none", color: "black" }}
             >
               <MenuItem onClick={handleClose}>
-                <Avatar /> My account
+                My account
+              </MenuItem>
+            </Link>
+            <Link
+              to="/"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <MenuItem onClick={handleClose}>Home
               </MenuItem>
             </Link>
             <Link
@@ -99,7 +122,7 @@ export default function AccountButton() {
               </MenuItem>
             </Link>
             <Divider />
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>) : (
         <Menu
         anchorEl={anchorEl}
@@ -127,7 +150,7 @@ export default function AccountButton() {
               right: 14,
               width: 10,
               height: 10,
-              bgcolor: "background.paper",
+              bgcolor: "whitesmoke",
               transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
             },
@@ -137,6 +160,12 @@ export default function AccountButton() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
             <Link
+              to="/"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <MenuItem onClick={handleClose}>Home
+              </MenuItem>
+            </Link><Link
               to="/login"
               style={{ textDecoration: "none", color: "black" }}
             >

@@ -1,12 +1,13 @@
 import AccountButton from "../../components/AccountButton/AccountButton";
 import NavBar from "../../components/NavBar/NavBar";
 
-const Account = () => {
+const About = () => {
   return (
-    <div className="account-container">
+    <div className="about-container">
       <NavBar />
       <AccountButton />
+      About
     </div>
   );
 };
-export default Account;
+export default About;
