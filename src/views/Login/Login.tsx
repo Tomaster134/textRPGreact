@@ -12,6 +12,8 @@ import { UserContext } from "../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import AccountButton from "../../components/AccountButton/AccountButton";
 import './Login.css'
+import MLogo from "../../components/MLogo/MLogo";
+import { useSnackbar } from "notistack";
 
 function Copyright(props: any) {
   return (
@@ -39,6 +41,8 @@ export default function Login() {
     password: "",
   });
 
+  const { enqueueSnackbar } = useSnackbar()
+
   const { setUser } = React.useContext(UserContext);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -64,13 +68,17 @@ export default function Login() {
         active_account: data.user_active_account,
       });
       localStorage.setItem("user_id", data.user_id);
+      data.user_active_account && localStorage.setItem("active_account", data.user_active_account)
+      enqueueSnackbar("Login successful", { variant: "success"})
       navigate("/");
     } else {
-      alert("Username or Password incorrect");
+      enqueueSnackbar("Username or password incorrect", { variant: "warning"})
     }
   };
 
   return (
+    <>
+    <MLogo/>
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
@@ -82,7 +90,7 @@ export default function Login() {
           sx={{
             backgroundImage: "url(src/assets/imgs/forest.jpeg)",
             backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
+            backgroundColor: (t:any) =>
               t.palette.mode === "light"
                 ? t.palette.grey[50]
                 : t.palette.grey[900],
@@ -161,5 +169,6 @@ export default function Login() {
         </Grid>
       </Grid>
     </ThemeProvider>
+    </>
   );
 }

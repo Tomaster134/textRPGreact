@@ -8,11 +8,13 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
+import { useSnackbar } from "notistack";
 
 export default function AccountButton() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { user, setUser } = React.useContext(UserContext);
+  const {enqueueSnackbar} = useSnackbar()
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
     console.log({ user });
@@ -32,6 +34,7 @@ export default function AccountButton() {
       active_account: -1
     });
     localStorage.clear();
+    enqueueSnackbar("Logged out.", {variant: "warning"})
     navigate("/")
   }
 
@@ -99,19 +102,20 @@ export default function AccountButton() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
+            
+            <Link
+              to="/"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <MenuItem onClick={handleClose}>Home
+              </MenuItem>
+            </Link>
             <Link
               to="/account"
               style={{ textDecoration: "none", color: "black" }}
             >
               <MenuItem onClick={handleClose}>
                 My account
-              </MenuItem>
-            </Link>
-            <Link
-              to="/"
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              <MenuItem onClick={handleClose}>Home
               </MenuItem>
             </Link>
             <Link

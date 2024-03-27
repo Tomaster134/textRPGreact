@@ -33,10 +33,10 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/account" element={<Account />} />
-      <Route path="/create-player" element={<CreatePlayer />} />
-      <Route path="/room" element={<Room />} />
+      <Route path="/" element={<Home/>} />
+      <Route path="/account" element={<Account/>} />
+      <Route path="/create-player" element={<CreatePlayer/>} />
+      <Route path="/room" element={<Room/>} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/about" element={<About />} />

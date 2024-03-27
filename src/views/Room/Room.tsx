@@ -1,13 +1,17 @@
-import AccountButton from "../../components/AccountButton/AccountButton"
-import Terminal from "../../components/Terminal/Terminal"
-import './Room.css'
+import AccountButton from "../../components/AccountButton/AccountButton";
+import MLogo from "../../components/MLogo/MLogo";
+import PlayerRoute from "../../components/PlayerRoute/PlayerRoute";
+import Terminal from "../../components/Terminal/Terminal";
+import "./Room.css";
 
 const Room = () => {
   return (
     <>
-        <AccountButton />
-        <Terminal/>
+      <PlayerRoute />
+      <MLogo />
+      <AccountButton />
+      <Terminal />
     </>
-  )
-}
-export default Room
+  );
+};
+export default Room;

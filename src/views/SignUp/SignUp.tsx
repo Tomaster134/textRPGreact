@@ -10,6 +10,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import AccountButton from "../../components/AccountButton/AccountButton";
 import "./SignUp.css";
+import MLogo from "../../components/MLogo/MLogo";
+import { useSnackbar } from "notistack";
 
 function Copyright(props: any) {
   return (
@@ -30,6 +32,8 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+
+  const { enqueueSnackbar } = useSnackbar()
   const navigate = useNavigate();
 
   const [input, setInput] = React.useState({
@@ -56,13 +60,16 @@ export default function SignUp() {
     const data = await response.json();
     console.log(data);
     if (data.status === "ok") {
+      enqueueSnackbar("Sign up successful, please log in.", { variant: "success"})
       navigate("/login");
     } else {
-      alert("Username or Email already in use.");
+      enqueueSnackbar("Username or Email already taken, please try again", { variant: "warning"})
     }
   };
 
   return (
+    <>
+    <MLogo/>
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
@@ -75,7 +82,7 @@ export default function SignUp() {
           sx={{
             backgroundImage: "url(src/assets/imgs/forest.jpeg)",
             backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
+            backgroundColor: (t:any) =>
               t.palette.mode === "light"
                 ? t.palette.grey[50]
                 : t.palette.grey[900],
@@ -188,5 +195,6 @@ export default function SignUp() {
         </Grid>
       </Grid>
     </ThemeProvider>
+    </>
   );
 }
